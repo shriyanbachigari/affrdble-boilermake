@@ -1,59 +1,125 @@
-"use client"; // ✅ Add this at the top
+"use client";
+import { useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css"; // Import Bootstrap CSS
+import Image from "next/image";
 
-import { useState } from "react";
-import axios from "axios";
-
-export default function Home() {
-  const [image, setImage] = useState(null);
-  const [description, setDescription] = useState("");
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-
-  const handleImageUpload = (event) => {
-    setImage(event.target.files[0]);
-  };
-
-  const handleSubmit = async () => {
-    setLoading(true);
-    const formData = new FormData();
-    if (image) formData.append("image", image);
-    if (description) formData.append("description", description);
-
-    try {
-      const response = await axios.post("http://127.0.0.1:5000/search", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setResult(response.data);
-    } catch (error) {
-      console.error("Error fetching data", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+export default function BootstrapPage() {
+  useEffect(() => {
+    require("bootstrap/dist/js/bootstrap.bundle.min.js"); // Load Bootstrap JS
+  }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
-      <div className="bg-white shadow-lg rounded-lg p-6 w-full max-w-lg">
-        <h1 className="text-xl font-bold text-gray-800 mb-4">Find Cheaper Alternatives</h1>
-
-        <input type="file" accept="image/*" onChange={handleImageUpload} className="mb-3 block w-full border rounded p-2" />
-        <input type="text" placeholder="Or type a description..." value={description} onChange={(e) => setDescription(e.target.value)}
-          className="mb-3 block w-full border rounded p-2" />
-
-        <button onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded">
-          {loading ? "Searching..." : "Find Alternative"}
-        </button>
-
-        {result && (
-          <div className="mt-5">
-            <h2 className="text-lg font-semibold">Cheaper Alternative:</h2>
-            <img src={result.image_url} alt="Alternative" className="w-full h-48 object-cover rounded mt-2" />
-            <a href={result.link} target="_blank" rel="noopener noreferrer" className="block mt-3 text-blue-600 underline">
-              View Product
-            </a>
+    <div>
+      {/* Navbar */}
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div className="container">
+          <a className="navbar-brand" href="#">Brand</a>
+          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item"><a className="nav-link" href="#services">Services</a></li>
+              <li className="nav-item"><a className="nav-link" href="#about">About</a></li>
+              <li className="nav-item"><a className="nav-link" href="#team">Team</a></li>
+              <li className="nav-item"><a className="nav-link" href="#contact">Contact</a></li>
+            </ul>
           </div>
-        )}
-      </div>
+        </div>
+      </nav>
+
+      {/* Header Section */}
+      <header className="py-5 text-center bg-primary text-white">
+        <div className="container">
+          <h1>Welcome To Our Studio!</h1>
+          <p className="lead">It's Nice To Meet You</p>
+          <a className="btn btn-light btn-lg" href="#services">Tell Me More</a>
+        </div>
+      </header>
+
+      {/* Services Section */}
+      <section className="container py-5" id="services">
+        <div className="text-center">
+          <h2 className="section-heading">Services</h2>
+          <p className="text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+        <div className="row text-center">
+          <div className="col-md-4">
+            <i className="fas fa-shopping-cart fa-3x text-primary"></i>
+            <h4 className="my-3">E-Commerce</h4>
+            <p className="text-muted">Providing the best online shopping experience.</p>
+          </div>
+          <div className="col-md-4">
+            <i className="fas fa-laptop fa-3x text-primary"></i>
+            <h4 className="my-3">Responsive Design</h4>
+            <p className="text-muted">Optimized for mobile and desktop.</p>
+          </div>
+          <div className="col-md-4">
+            <i className="fas fa-lock fa-3x text-primary"></i>
+            <h4 className="my-3">Web Security</h4>
+            <p className="text-muted">Keeping your data safe and secure.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="bg-light py-5" id="about">
+        <div className="container text-center">
+          <h2>About</h2>
+          <p className="text-muted">Lorem ipsum dolor sit amet consectetur.</p>
+        </div>
+      </section>
+
+      {/* Team Section */}
+      <section className="container py-5" id="team">
+        <div className="text-center">
+          <h2>Our Amazing Team</h2>
+          <p className="text-muted">Meet our professionals.</p>
+        </div>
+        <div className="row text-center">
+          <div className="col-md-4">
+            <Image src="/team1.jpg" width={150} height={150} className="rounded-circle" alt="Parveen Anand" />
+            <h4>Parveen Anand</h4>
+            <p className="text-muted">Lead Designer</p>
+          </div>
+          <div className="col-md-4">
+            <Image src="/team2.jpg" width={150} height={150} className="rounded-circle" alt="Diana Petersen" />
+            <h4>Diana Petersen</h4>
+            <p className="text-muted">Lead Marketer</p>
+          </div>
+          <div className="col-md-4">
+            <Image src="/team3.jpg" width={150} height={150} className="rounded-circle" alt="Larry Parker" />
+            <h4>Larry Parker</h4>
+            <p className="text-muted">Lead Developer</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section className="bg-light py-5" id="contact">
+        <div className="container text-center">
+          <h2>Contact Us</h2>
+          <p className="text-muted">We would love to hear from you!</p>
+          <form className="mt-4">
+            <div className="row">
+              <div className="col-md-6">
+                <input type="text" className="form-control mb-3" placeholder="Your Name *" required />
+              </div>
+              <div className="col-md-6">
+                <input type="email" className="form-control mb-3" placeholder="Your Email *" required />
+              </div>
+            </div>
+            <input type="tel" className="form-control mb-3" placeholder="Your Phone *" required />
+            <textarea className="form-control mb-3" rows="4" placeholder="Your Message *" required></textarea>
+            <button type="submit" className="btn btn-primary btn-lg">Send Message</button>
+          </form>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-4 bg-dark text-light text-center">
+        <p>&copy; 2024 Your Company. All Rights Reserved.</p>
+      </footer>
     </div>
   );
 }
